@@ -1,0 +1,11 @@
+---
+title: "Sentinel Common Data Model (SCDM)"
+---
+
+The Sentinel Common Data Model (SCDM) represents the standard data structure that allows for rapid implementation of standard queries across the Sentinel Distributed Database (SDD). The [Sentinel routine querying tools](https://dev.sentinelsystem.org/projects/AD/repos/qrp/browse) are designed to run against data transformed into the Sentinel Common Data Model format.
+
+## Overview
+
+The SCDM was developed by the Sentinel Operations Center (SOC) in accordance with the [Mini-Sentinel Common Data Model Guiding Principles](https://www.sentinelinitiative.org/sites/default/files/data/distributed-database/Mini-Sentinel_CommonDataModel_GuidingPrinciples_v1.0_0.pdf) and was originally modeled after the [Health Care Systems Research Network Virtual Data Warehouse (HCSRN/VDW)](http://www.hcsrn.org/en/Tools%20&%20Materials/VDW/).
+
+This repository contains documentation (data dictionary) for the Sentinel Common Data Model (SCDM) Version `r params$version`. The SCDM currently includes 18 tables that represent information for the data elements needed for Sentinel activities. Several identifiers are used to link records across tables: a unique person identifier, `PatID`, a unique provider identifier, `ProviderID`, and a unique encounter identifier, `EncounterID`. Details of the 18 tables are provided in this repository.

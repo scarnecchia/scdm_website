@@ -1,0 +1,70 @@
+---
+title: "SCDM Reference Tables"
+format:
+  html:
+    grid:
+      sidebar-width: 0px
+      body-width: 1800px
+      margin-width: 300px
+      gutter-width: 1.5rem
+---
+
+```{r setup, include=FALSE}
+# set chunks defaults
+knitr::opts_chunk$set(
+  echo       = FALSE,
+  message    = FALSE,
+  warning    = FALSE
+)
+
+options(knitr.kable.NA = '')
+options(kableExtra.html.bsTable = T)
+
+library(flexdashboard)
+library(jsonlite)
+library(dplyr)
+library(purrr)
+library(magrittr)
+library(htmltools)
+
+print_tables <- function(name, scdm_tab, description, variables) {
+  
+  cat('## ', name, "\n\n")
+  
+  cat(description, "\n\n")
+  cat("<b>SCDM Table</b>: ", scdm_tab, "\n\n")
+  cat("\n")
+  cat("\n")
+  
+.attributes <- variables
+
+  cat(kableExtra::kbl(.attributes,
+                    "html",
+                    escape = FALSE
+) %>%
+  kableExtra::kable_styling(
+    fixed_thead = TRUE,
+    bootstrap_options = c("responsive", "striped","condensed"),
+    "\n"
+  ) %>%
+  kableExtra::scroll_box()
+)
+  cat("\n")
+  cat("\n")
+}
+
+scdm <- fromJSON("./data/reference_tables.json")
+
+tables <- scdm %>%
+  purrr::pluck("tables")
+```
+
+
+
+:::{.panel-tabset}
+
+```{r, echo=FALSE, results="asis"}
+purrr::pwalk(.l = list(tables$table_name, tables$scdm_table, tables$description, tables$variables), .f = print_tables)
+```
+
+:::
