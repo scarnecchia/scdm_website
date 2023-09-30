@@ -1,0 +1,299 @@
+{
+    "model": "Sentinel Common Data Model",
+    "version": "8.1.0",
+    "date": "2023-10-01",
+    "description": "The Sentinel Common Data Model (SCDM) represents the standard data structure that allows for rapid implementation of standard queries across the Sentinel Distributed Database (SDD). The Sentinel routine querying tools are designed to run against data transformed into the Sentinel Common Data Model format.",
+    "tables": [
+        {
+            "table_name": "Enrollment",
+            "abbreviation": "ENR",
+            "table_type": "Admin",
+            "description": "The SCDM Enrollment Table has a start/stop structure that contains one record per continuous enrollment period. Patients with medical coverage, drug coverage, or both should be included. A break in enrollment (of at least one day) or a change in either the medical or drug coverage variables should generate a new record.",
+            "notes": null,
+            "sort_order": "PatID, Enr_Start, Enr_End, MedCov, DrugCov, Chart",
+            "unique_row": "PatID, Enr_Start, Enr_End, MedCov, DrugCov, Chart",
+            "variables": [
+                {
+                    "variable_name": "PatID",
+                    "var_type_length": "Num(#)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Unique patient identifier",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Arbitrary person-level identifier",
+                    "example": "123456789",
+                    "guidance": "A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records. Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table.",
+                    "notes": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                },
+                {
+                    "variable_name": "Enr_Start",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "SAS Date",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Date of the beginning of the enrollment period.",
+                    "example": "1/1/2019",
+                    "guidance": "If the exact date is unknown, use the first day of the month. Enr_Start should not be before January 1, 2000.",
+                    "notes": "Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019."
+                },
+                {
+                    "variable_name": "Enr_End",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "SAS Date",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Date of the end of the enrollment period.",
+                    "example": "12/31/2019",
+                    "guidance": "If the exact date is unknown, use the last day of the month.",
+                    "notes": "Enr_End should not be imputed using the date of death found in the Death table."
+                },
+                {
+                    "variable_name": "MedCov",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Y",
+                            "value_map": "Yes"
+                        },
+                        {
+                            "value": "N",
+                            "value_map": "No"
+                        },
+                        {
+                            "value": "U",
+                            "value_map": "Unknown"
+                        },
+                        {
+                            "value": "A",
+                            "value_map": "Ambulatory Only"
+                        }
+                    ],
+                    "definition": "Indicates whether the patient has medical coverage during the enrollment period.",
+                    "example": "Y",
+                    "guidance": "Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided.",
+                    "notes": null
+                },
+                {
+                    "variable_name": "DrugCov",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Y",
+                            "value_map": "Yes"
+                        },
+                        {
+                            "value": "N",
+                            "value_map": "No"
+                        },
+                        {
+                            "value": "U",
+                            "value_map": "Unknown"
+                        }
+                    ],
+                    "definition": "Indicates whether the patient has drug coverage during the enrollment period.",
+                    "example": "Y",
+                    "guidance": "Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period).",
+                    "notes": null
+                },
+                {
+                    "variable_name": "Chart",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Y",
+                            "value_map": "Yes"
+                        },
+                        {
+                            "value": "N",
+                            "value_map": "No"
+                        }
+                    ],
+                    "definition": "Chart abstraction flag to answer the question, \"Are you able to request charts for this member?\"",
+                    "example": "Y",
+                    "guidance": "Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member.",
+                    "notes": [
+                        "This flag does not address chart availability.",
+                        "Chart variable aims to identify enrollment periods for which medical charts cannot be requested. Potential scenarios include: 1) Charts cannot be requested for Medicare members (all enrollment periods for Medicare members should be assigned Chart=N), 2) Charts cannot be requested for administrative services only (ASO) populations (all ASO enrollment periods should be assigned Chart=N). If there is no definitive information indicating that medical charts cannot be requested for member enrollment period(s), records should be assigned Chart=Y."
+                    ]
+                }
+            ]
+        },
+        {
+            "table_name": "Demographic",
+            "abbreviation": "DEM",
+            "table_type": "Admin",
+            "description": "The SCDM Demographic Table contains one record per PatID with the most recent information on Birth_Date, Sex, Race, and PostalCode.",
+            "notes": null,
+            "sort_order": "PatID",
+            "unique_row": "PatID",
+            "variables": [
+                {
+                    "variable_name": "PatID",
+                    "var_type_length": "Num(#)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Unique patient identifier",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Arbitrary person-level identifier",
+                    "example": "123456789",
+                    "guidance": "Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table.",
+                    "notes": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                },
+                {
+                    "variable_name": "Birth_Date",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "Yes",
+                    "values": [
+                        {
+                            "value": "SAS Date",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Date of birth.",
+                    "example": "12/5/1971",
+                    "guidance": null,
+                    "notes": null
+                },
+                {
+                    "variable_name": "Sex",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "A",
+                            "value_map": "Ambiguous"
+                        },
+                        {
+                            "value": "F",
+                            "value_map": "Female"
+                        },
+                        {
+                            "value": "M",
+                            "value_map": "Male"
+                        },
+                        {
+                            "value": "U",
+                            "value_map": "Unknown"
+                        }
+                    ],
+                    "definition": "Sex.",
+                    "example": "F",
+                    "guidance": null,
+                    "notes": "The Sex variable is populated with biological sex data, which may not be correlated with gender."
+                },
+                {
+                    "variable_name": "Hispanic",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Y",
+                            "value_map": "Yes"
+                        },
+                        {
+                            "value": "N",
+                            "value_map": "No"
+                        },
+                        {
+                            "value": "U",
+                            "value_map": "Unknown"
+                        }
+                    ],
+                    "definition": "A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",
+                    "example": "N",
+                    "guidance": null,
+                    "notes": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                },
+                {
+                    "variable_name": "Race",
+                    "var_type_length": "Char(1)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "0",
+                            "value_map": "Unknown"
+                        },
+                        {
+                            "value": "1",
+                            "value_map": "American Indian or Alaska Native (A person having origins in any of the original peoples of North and South America (including Central America), and who maintains tribal affiliation or community attachment."
+                        },
+                        {
+                            "value": "2",
+                            "value_map": "Asian (A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.)"
+                        },
+                        {
+                            "value": "3",
+                            "value_map": "Black or African American (A person having origins in any of the black racial groups of Africa.)"
+                        },
+                        {
+                            "value": "4",
+                            "value_map": "Native Hawaiian or Other Pacific Islander (A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.)"
+                        },
+                        {
+                            "value": "5",
+                            "value_map": "White (A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.)"
+                        },
+                        {
+                            "value": "M",
+                            "value_map": "Multi-racial (A person who identifies with two or more races.)"
+                        }
+                    ],
+                    "definition": "Race.",
+                    "example": "2",
+                    "guidance": "Please use only one race value per patient.",
+                    "notes": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                },
+                {
+                    "variable_name": "PostalCode",
+                    "var_type_length": "Char(#)",
+                    "missing_allowed": "Yes",
+                    "values": [
+                        {
+                            "value": "Postal/Region Code",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Postal code of patient's most recent primary residence.",
+                    "example": "04090",
+                    "guidance": [
+                        "USA: First 5 digits of the ZIP code of the patient's most recent primary residence. (5 characters only)",
+                        "Other: Complete postal code or region identifier. (variable length is dependent on code length)"
+                    ],
+                    "notes": null
+                },
+                {
+                    "variable_name": "PostalCode_Date",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "Yes",
+                    "values": [
+                        {
+                            "value": "SAS Date",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Earliest date that the PostalCode is believed to be continuously correct up until the end date of your source data for the ETL. Date will be updated/overwritten as postal code for a patient/member changes over time.",
+                    "example": "12/12/2009",
+                    "guidance": null,
+                    "notes": null
+                }
+            ]
+        }
+    ]
+}

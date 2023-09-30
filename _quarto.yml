@@ -1,0 +1,46 @@
+project:
+  type: website
+  render:
+    - "index.qmd"
+    - "scdm.qmd"
+    - "reference_tables.qmd"
+    - "about.qmd"
+
+website:
+  title: "Sentinel Common Data Model"
+  navbar:
+    search: true
+    left:
+      - text: Model Versions
+        menu:
+        - text: SCDM 8.0.0
+          url: https://dev.sentinelsystem.org/projects/SCDM/repos/sentinel_common_data_model/browse?at=refs%2Ftags%2Fscdm_8.0.0
+      - href: scdm.qmd
+        text: Model Tables
+        icon: table
+      - href: reference_tables.qmd
+        text: Reference Tables
+    tools:
+      - icon: mailbox
+        menu:
+          - text: Report an issue
+            url: mailto:info@sentinelsystem.org
+      - icon: house-door-fill
+        href: index.qmd
+
+format:
+  html:
+    theme: bootstrap
+    base_font:
+        google: Noto Sans
+    code_font:
+      google: Noto Sans Mono
+    toc: false
+    grid:
+      sidebar-width: 300px
+      body-width: 1400px
+      margin-width: 300px
+      gutter-width: 1.5rem
+
+params:
+  version: 8.1.0

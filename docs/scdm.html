@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Sentinel Common Data Model – scdm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Sentinel Common Data Model</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-model-versions" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Model Versions</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-model-versions">    
+        <li>
+    <a class="dropdown-item" href="https://dev.sentinelsystem.org/projects/SCDM/repos/sentinel_common_data_model/browse?at=refs%2Ftags%2Fscdm_8.0.0" rel="" target="">
+ <span class="dropdown-text">SCDM 8.0.0</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./scdm.html" rel="" target="" aria-current="page"><i class="bi bi-table" role="img">
+</i> 
+ <span class="menu-text">Model Tables</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./reference_tables.html" rel="" target="">
+ <span class="menu-text">Reference Tables</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-mailbox"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="mailto:info@sentinelsystem.org">
+            Report an issue
+            </a>
+          </li>
+      </ul>
+    </div>
+    <a href="./index.html" rel="" title="Sentinel Common Data Model (SCDM)" class="quarto-navigation-tool px-1" aria-label="Sentinel Common Data Model (SCDM)"><i class="bi bi-house-door-fill"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="sentinel-common-data-model" class="level1">
+<h1>Sentinel Common Data Model</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">ENR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">DEM</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="enrollment" class="level3">
+<h3 class="anchored" data-anchor-id="enrollment">Enrollment</h3>
+<p>The SCDM Enrollment Table has a start/stop structure that contains one record per continuous enrollment period. Patients with medical coverage, drug coverage, or both should be included. A break in enrollment (of at least one day) or a change in either the medical or drug coverage variables should generate a new record.</p>
+<p><b>Unique Row</b>: PatID, Enr_Start, Enr_End, MedCov, DrugCov, Chart</p>
+<p><b>Sort Order</b>: PatID, Enr_Start, Enr_End, MedCov, DrugCov, Chart</p>
+
+<table class="table table-responsive table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable Name
+</th>
+<th style="text-align:left;">
+Variable Type and Length (Bytes)
+</th>
+<th style="text-align:left;">
+Values
+</th>
+<th style="text-align:left;">
+Missing Values Allowed?
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Guidance
+</th>
+<th style="text-align:left;">
+Example
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PatID
+</td>
+<td style="text-align:left;">
+Num(#)
+</td>
+<td style="text-align:left;">
+Unique patient identifier
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Arbitrary person-level identifier
+</td>
+<td style="text-align:left;">
+A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records. Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+</td>
+<td style="text-align:left;font-family: monospace;">
+123456789
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Enr_Start
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+SAS Date
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Date of the beginning of the enrollment period.
+</td>
+<td style="text-align:left;">
+If the exact date is unknown, use the first day of the month. Enr_Start should not be before January 1, 2000.
+</td>
+<td style="text-align:left;font-family: monospace;">
+1/1/2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Enr_End
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+SAS Date
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Date of the end of the enrollment period.
+</td>
+<td style="text-align:left;">
+If the exact date is unknown, use the last day of the month.
+</td>
+<td style="text-align:left;font-family: monospace;">
+12/31/2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MedCov
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+Y = Yes<br>N = No<br>U = Unknown<br>A = Ambulatory Only
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Indicates whether the patient has medical coverage during the enrollment period.
+</td>
+<td style="text-align:left;">
+Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided.
+</td>
+<td style="text-align:left;font-family: monospace;">
+Y
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DrugCov
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+Y = Yes<br>N = No<br>U = Unknown
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Indicates whether the patient has drug coverage during the enrollment period.
+</td>
+<td style="text-align:left;">
+Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period).
+</td>
+<td style="text-align:left;font-family: monospace;">
+Y
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chart
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+Y = Yes<br>N = No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Chart abstraction flag to answer the question, “Are you able to request charts for this member?”
+</td>
+<td style="text-align:left;">
+Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member.
+</td>
+<td style="text-align:left;font-family: monospace;">
+Y
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>1</sup> PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>2</sup> Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>3</sup> Enr_End should not be imputed using the date of death found in the Death table.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>4</sup> This flag does not address chart availability.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>5</sup> Chart variable aims to identify enrollment periods for which medical charts cannot be requested. Potential scenarios include: 1) Charts cannot be requested for Medicare members (all enrollment periods for Medicare members should be assigned Chart=N), 2) Charts cannot be requested for administrative services only (ASO) populations (all ASO enrollment periods should be assigned Chart=N). If there is no definitive information indicating that medical charts cannot be requested for member enrollment period(s), records should be assigned Chart=Y.
+</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="demographic" class="level3">
+<h3 class="anchored" data-anchor-id="demographic">Demographic</h3>
+<p>The SCDM Demographic Table contains one record per PatID with the most recent information on Birth_Date, Sex, Race, and PostalCode.</p>
+<p><b>Unique Row</b>: PatID</p>
+<p><b>Sort Order</b>: PatID</p>
+
+<table class="table table-responsive table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable Name
+</th>
+<th style="text-align:left;">
+Variable Type and Length (Bytes)
+</th>
+<th style="text-align:left;">
+Values
+</th>
+<th style="text-align:left;">
+Missing Values Allowed?
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Guidance
+</th>
+<th style="text-align:left;">
+Example
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PatID
+</td>
+<td style="text-align:left;">
+Num(#)
+</td>
+<td style="text-align:left;">
+Unique patient identifier
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Arbitrary person-level identifier
+</td>
+<td style="text-align:left;">
+Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+</td>
+<td style="text-align:left;font-family: monospace;">
+123456789
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Birth_Date
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+SAS Date
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Date of birth.
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+12/5/1971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+A = Ambiguous<br>F = Female<br>M = Male<br>U = Unknown
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Sex.
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+F
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+Y = Yes<br>N = No<br>U = Unknown
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+N
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Race
+</td>
+<td style="text-align:left;">
+Char(1)
+</td>
+<td style="text-align:left;">
+0 = Unknown<br>1 = American Indian or Alaska Native (A person having origins in any of the original peoples of North and South America (including Central America), and who maintains tribal affiliation or community attachment.<br>2 = Asian (A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.)<br>3 = Black or African American (A person having origins in any of the black racial groups of Africa.)<br>4 = Native Hawaiian or Other Pacific Islander (A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.)<br>5 = White (A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.)<br>M = Multi-racial (A person who identifies with two or more races.)
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Race.
+</td>
+<td style="text-align:left;">
+Please use only one race value per patient.
+</td>
+<td style="text-align:left;font-family: monospace;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PostalCode
+</td>
+<td style="text-align:left;">
+Char(#)
+</td>
+<td style="text-align:left;">
+Postal/Region Code
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Postal code of patient’s most recent primary residence.
+</td>
+<td style="text-align:left;">
+USA: First 5 digits of the ZIP code of the patient’s most recent primary residence. (5 characters only)
+</td>
+<td style="text-align:left;font-family: monospace;">
+04090
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PostalCode_Date
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+SAS Date
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Earliest date that the PostalCode is believed to be continuously correct up until the end date of your source data for the ETL. Date will be updated/overwritten as postal code for a patient/member changes over time.
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+12/12/2009
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>1</sup> PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>2</sup> The Sex variable is populated with biological sex data, which may not be correlated with gender.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>3</sup> At this time the SCDM retains one Race and one Hispanic value per individual.
+</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
