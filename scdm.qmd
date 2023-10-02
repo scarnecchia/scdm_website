@@ -11,52 +11,13 @@ knitr::opts_chunk$set(
 options(knitr.kable.NA = '')
 options(kableExtra.html.bsTable = T)
 
-library(flexdashboard)
 library(jsonlite)
 library(dplyr)
 library(purrr)
 library(magrittr)
+library(tidyr)
 
-process_values <- function(val) {
-  if (all(!is.na(c(val$value, val$value_map)))) {
-    paste(val$value, "=", val$value_map)
-  } else if (any(!is.na(c(val$value, val$value_map)))) {
-    ifelse(!is.na(val$value_map), paste(val$value, "=", val$value_map), val$value)
-  } else {
-    val$value
-  }
-}
-
-# Helper function to process notes
-process_notes <- function(n) {
-  if (all(!is.null(n$notes))) {
-    paste0("[^", n$notes, "]")
-  } else {
-    n$notes
-  }
-}
-
-# Main function to transform JSON to HTML
-json_to_html <- function(x) {
-  x %>%
-    dplyr::mutate(
-      variables = purrr::map(variables, ~ {
-        .x %>%
-          dplyr::mutate(
-            values = if ("values" %in% names(.x)) {
-              purrr::map(.x$values, ~ stringr::str_c(process_values(.x), collapse = "<br>"))
-            } else {
-              .x$values
-            }
-            # notes = if ("notes" %in% names(.x)) {
-            #   purrr::map(.x$notes, ~ stringr::str_c(process_notes(.x), collapse = "<br>"))
-            # } else {
-            #   .x$notes
-            # }
-          )
-      })
-    )
-}
+source("./R/functions.R")
 
 print_dd <- function(name, abbreviation, description, unique_row, sort_order, variables) {
 
@@ -70,7 +31,7 @@ print_dd <- function(name, abbreviation, description, unique_row, sort_order, va
 
 
 .attributes <- variables %>%
-  dplyr::mutate(dplyr::across(everything(), ~ purrr::map(.x, ~ ifelse(is.null(.x), NA, .x)))) %>%
+    dplyr::mutate(dplyr::across(everything(), ~ purrr::map(.x, ~ ifelse(is.null(.x), NA, .x)))) %>%
     dplyr::select(-notes) %>%
     dplyr::relocate(missing_allowed, .after = values) %>%
     dplyr::relocate(example, .after = guidance) %>%
@@ -82,11 +43,11 @@ print_dd <- function(name, abbreviation, description, unique_row, sort_order, va
                   Example = example,
                   Guidance = guidance)
 
-  .notes <- variables %>%
-    dplyr::pull(notes) %>%
-    unlist() %>%
-    purrr::discard(is.na) %>%
-    unique()
+  # .notes <- variables %>%
+  #   dplyr::pull(notes) %>%
+  #   unlist() %>%
+  #   purrr::discard(is.na) %>%
+  #   unique()
 
     cat(kableExtra::kbl(.attributes,
                       "html",
@@ -98,8 +59,7 @@ print_dd <- function(name, abbreviation, description, unique_row, sort_order, va
       fixed_thead = FALSE,
       bootstrap_options = c("responsive", "striped"),
       "\n"
-    ) %>%
-    kableExtra::add_footnote(.notes, notation="number")
+    ) 
   )
   cat("\n")
   cat("\n")

@@ -25,8 +25,21 @@
                     ],
                     "definition": "Arbitrary person-level identifier",
                     "example": "123456789",
-                    "guidance": "A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records. Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table.",
-                    "notes": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records."
+                        },
+                        {
+                            "label": "Note 2",
+                            "text": "Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "Enr_Start",
@@ -40,8 +53,21 @@
                     ],
                     "definition": "Date of the beginning of the enrollment period.",
                     "example": "1/1/2019",
-                    "guidance": "If the exact date is unknown, use the first day of the month. Enr_Start should not be before January 1, 2000.",
-                    "notes": "Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019."
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "If the exact date is unknown, use the first day of the month."
+                        },
+                        {
+                            "label": "Note 2",
+                            "text": "Enr_Start should not be before January 1, 2000."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "Enr_End",
@@ -55,8 +81,17 @@
                     ],
                     "definition": "Date of the end of the enrollment period.",
                     "example": "12/31/2019",
-                    "guidance": "If the exact date is unknown, use the last day of the month.",
-                    "notes": "Enr_End should not be imputed using the date of death found in the Death table."
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "If the exact date is unknown, use the last day of the month."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "Enr_End should not be imputed using the date of death found in the Death table."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "MedCov",
@@ -82,7 +117,12 @@
                     ],
                     "definition": "Indicates whether the patient has medical coverage during the enrollment period.",
                     "example": "Y",
-                    "guidance": "Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided.",
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided."
+                        }
+                    ],
                     "notes": null
                 },
                 {
@@ -105,7 +145,12 @@
                     ],
                     "definition": "Indicates whether the patient has drug coverage during the enrollment period.",
                     "example": "Y",
-                    "guidance": "Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period).",
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period)."
+                        }
+                    ],
                     "notes": null
                 },
                 {
@@ -124,10 +169,17 @@
                     ],
                     "definition": "Chart abstraction flag to answer the question, \"Are you able to request charts for this member?\"",
                     "example": "Y",
-                    "guidance": "Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member.",
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member."
+                        }
+                    ],
                     "notes": [
-                        "This flag does not address chart availability.",
-                        "Chart variable aims to identify enrollment periods for which medical charts cannot be requested. Potential scenarios include: 1) Charts cannot be requested for Medicare members (all enrollment periods for Medicare members should be assigned Chart=N), 2) Charts cannot be requested for administrative services only (ASO) populations (all ASO enrollment periods should be assigned Chart=N). If there is no definitive information indicating that medical charts cannot be requested for member enrollment period(s), records should be assigned Chart=Y."
+                        {
+                            "1": "This flag does not address chart availability.",
+                            "2": "Chart variable aims to identify enrollment periods for which medical charts cannot be requested. Potential scenarios include: 1) Charts cannot be requested for Medicare members (all enrollment periods for Medicare members should be assigned Chart=N), 2) Charts cannot be requested for administrative services only (ASO) populations (all ASO enrollment periods should be assigned Chart=N). If there is no definitive information indicating that medical charts cannot be requested for member enrollment period(s), records should be assigned Chart=Y."
+                        }
                     ]
                 }
             ]
@@ -153,8 +205,17 @@
                     ],
                     "definition": "Arbitrary person-level identifier",
                     "example": "123456789",
-                    "guidance": "Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table.",
-                    "notes": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "Birth_Date",
@@ -196,7 +257,11 @@
                     "definition": "Sex.",
                     "example": "F",
                     "guidance": null,
-                    "notes": "The Sex variable is populated with biological sex data, which may not be correlated with gender."
+                    "notes": [
+                        {
+                            "1": "The Sex variable is populated with biological sex data, which may not be correlated with gender."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "Hispanic",
@@ -219,7 +284,11 @@
                     "definition": "A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",
                     "example": "N",
                     "guidance": null,
-                    "notes": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                    "notes": [
+                        {
+                            "1": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "Race",
@@ -257,8 +326,17 @@
                     ],
                     "definition": "Race.",
                     "example": "2",
-                    "guidance": "Please use only one race value per patient.",
-                    "notes": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Please use only one race value per patient."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "At this time the SCDM retains one Race and one Hispanic value per individual."
+                        }
+                    ]
                 },
                 {
                     "variable_name": "PostalCode",
@@ -273,8 +351,14 @@
                     "definition": "Postal code of patient's most recent primary residence.",
                     "example": "04090",
                     "guidance": [
-                        "USA: First 5 digits of the ZIP code of the patient's most recent primary residence. (5 characters only)",
-                        "Other: Complete postal code or region identifier. (variable length is dependent on code length)"
+                        {
+                            "label": "USA",
+                            "text": "First 5 digits of the ZIP code of the patient's most recent primary residence. (5 characters only)"
+                        },
+                        {
+                            "label": "Other",
+                            "text": "Complete postal code or region identifier. (variable length is dependent on code length)"
+                        }
                     ],
                     "notes": null
                 },
@@ -291,6 +375,203 @@
                     "definition": "Earliest date that the PostalCode is believed to be continuously correct up until the end date of your source data for the ETL. Date will be updated/overwritten as postal code for a patient/member changes over time.",
                     "example": "12/12/2009",
                     "guidance": null,
+                    "notes": null
+                }
+            ]
+        },
+        {
+            "table_name": "Dispensing",
+            "abbreviation": "DIS",
+            "table_type": "Utilization",
+            "description": "The SCDM Outpatient Pharmacy Dispensing Table contains one record per unique outpatient pharmacy dispensing. Rollback transactions and other adjustments should be processed before populating this table",
+            "notes": [
+                {
+                    "1": "Medications distributed in other settings such as infusions given in medical practices or inpatient hospitals are captured in the utilization tables. Medication prescriptions (as opposed to dispensings) are captured in the Prescribing table within the SCDM.",
+                    "2": "Rollback transactions and other adjustments that are indicative of a dispensing being canceled or not picked up by the member should be processed before populating this table. This may be handled differently by Data Partners and may be affected by billing cycles."
+                }
+            ],
+            "sort_order": "PatID, RxDate",
+            "unique_row": "PatID, RxDate, Rx_CodeType, Rx, ProviderID",
+            "variables": [
+                {
+                    "variable_name": "PatID",
+                    "var_type_length": "Num(#)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Unique patient identifier",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Arbitrary person-level identifier. Used to link across tables.",
+                    "example": "123456789",
+                    "guidance": [
+                        {
+                            "label": "Note",
+                            "text": "Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table."
+                        }
+                    ],
+                    "notes": [
+                        {
+                            "1": "PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient."
+                        }
+                    ]
+                },
+                {
+                    "variable_name": "ProviderID",
+                    "var_type_length": "Num(#)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Unique provider identifier",
+                            "value_map": null
+                        },
+                        {
+                            "value": ".U",
+                            "value_map": "SAS Special Missing value indicating an individual provider or prescriber cannot be identified."
+                        }
+                    ],
+                    "definition": "Identifier for the individual provider who prescribed the drug. ",
+                    "example": "12345",
+                    "guidance": [{
+                        "label": "Note",
+                        "text": "If an individual provider/prescriber can not be identified, set to special missing value .U. This variable links to the Provider table. Use the fewest number of bytes necessary to hold all distinct values; see \"SAS Lengths\" Reference Table."
+                    }],
+                    "notes": [
+                        {
+                            "1": "As with the PatID, the ProviderID is a pseudoidentifier with a consistent crosswalk to the real identifier.",
+                            "2": "If all ProviderID values are unknown (i.e., set to .U), use Num(3) for the length of the variable. However, if the ProviderID length is greater than 3 in any other table, then set the length to the maximum length found for all tables. Variable lengths must be consistent across tables for same-named variables."
+                        }
+                    ]
+                },
+                {
+                    "variable_name": "RxDate",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "SAS Date",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Dispensing date (as close as possible to date the person received the dispensing).",
+                    "example": "11/29/2005",
+                    "guidance": null,
+                    "notes": null
+                },
+                {
+                    "variable_name": "Rx",
+                    "var_type_length": "Char(#)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "Drug Code",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Code representing a prescribed medication or medical device.",
+                    "example": "00006007431",
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "Please expunge any place holders (e.g., \"-\" or extra digits)."
+                        },
+                        {
+                            "label": "Note 2",
+                            "text": "Use the fewest number of bytes necessary to hold all values for all values of RxCodeType; see \"SAS Lengths\" Reference Table."
+                        }
+                    ],
+                    "notes": null
+                },
+                {
+                    "variable_name": "Rx_CodeType",
+                    "var_type_length": "Char(2)",
+                    "missing_allowed": "No",
+                    "values": [
+                        {
+                            "value": "ND",
+                            "value_map": "National Drug Code (US)"
+                        },
+                        {
+                            "value": "SN",
+                            "value_map": "SNOMED-CT (US)"
+                        },
+                        {
+                            "value": "SK",
+                            "value_map": "SNOMED-CT (UK/CPRD)"
+                        },
+                        {
+                            "value": "DM",
+                            "value_map": "Dictionary of Medicines and Devices (UK)"
+                        },
+                        {
+                            "value": "DI",
+                            "value_map": "Drug Identification Number (CA)"
+                        },
+                        {
+                            "value": "RN",
+                            "value_map": "RxNorm (US)"
+                        },
+                        {
+                            "value": "AT",
+                            "value_map": "Anatomical Therapeutic Chemical Classification System (DK)"
+                        }
+                    ],
+                    "definition": "Code type of prescribed medication or medical device. This field combined with the Rx field should be used to capture any type of prescribed medication or medical device available in the source data. Other code types may be added as new terminologies are used.",
+                    "example": "SK",
+                    "guidance": null,
+                    "notes": [
+                        {
+                            "1": "Rx_CodeType includes options for values that are relevant to medication and medical device codes used in different international jurisdictions."
+                        }
+                    ]
+                },
+                {
+                    "variable_name": "RxSup",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "Yes",
+                    "values": [
+                        {
+                            "value": "Days Supply",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Number of days that the medication supports based on the number of doses as reported by the pharmacist.",
+                    "example": "30",
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "This amount is typically found on the dispensings record. It should not be necessary to calculate this variable for use in the SCDM."
+                        },
+                        {
+                            "label": "Note 2",
+                            "text": "Positive integer values are expected"
+                        }
+                    ],
+                    "notes": null
+                },
+                {
+                    "variable_name": "RxAmt",
+                    "var_type_length": "Num(4)",
+                    "missing_allowed": "Yes",
+                    "values": [
+                        {
+                            "value": "Amount Dispensed",
+                            "value_map": null
+                        }
+                    ],
+                    "definition": "Number of units (pills, tablets, vials) dispensed. Net amount per dispensing. ",
+                    "example": "60",
+                    "guidance": [
+                        {
+                            "label": "Note 1",
+                            "text": "This amount is typically found on the dispensings record. It should not be necessary to calculate this variable for use in the SCDM. "
+                        },
+                        {
+                            "label": "Note 2",
+                            "text": "Positive values are expected"
+                        }
+                    ],
                     "notes": null
                 }
             ]

@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
   render:
     - "index.qmd"
     - "scdm.qmd"
@@ -43,4 +44,4 @@ format:
       gutter-width: 1.5rem
 
 params:
-  version: 8.1.0
+  version: "8.1.0"

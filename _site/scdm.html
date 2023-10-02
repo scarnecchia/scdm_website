@@ -132,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="sentinel-common-data-model" class="level1">
 <h1>Sentinel Common Data Model</h1>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">ENR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">DEM</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">ENR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">DEM</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">DIS</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <section id="enrollment" class="level3">
@@ -170,7 +170,7 @@ Example
 <tbody>
 <tr>
 <td style="text-align:left;">
-PatID
+PatID[^PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.]
 </td>
 <td style="text-align:left;">
 Num(#)
@@ -185,7 +185,7 @@ No
 Arbitrary person-level identifier
 </td>
 <td style="text-align:left;">
-A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records. Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+<b>Note 1</b>: A new enrollment period generates a new record, but the same person should have the same PatID on subsequent records.<br><b>Note 2</b>: Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
 </td>
 <td style="text-align:left;font-family: monospace;">
 123456789
@@ -193,7 +193,7 @@ A new enrollment period generates a new record, but the same person should have 
 </tr>
 <tr>
 <td style="text-align:left;">
-Enr_Start
+Enr_Start[^Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019.]
 </td>
 <td style="text-align:left;">
 Num(4)
@@ -208,7 +208,7 @@ No
 Date of the beginning of the enrollment period.
 </td>
 <td style="text-align:left;">
-If the exact date is unknown, use the first day of the month. Enr_Start should not be before January 1, 2000.
+<b>Note 1</b>: If the exact date is unknown, use the first day of the month.<br><b>Note 2</b>: Enr_Start should not be before January 1, 2000.
 </td>
 <td style="text-align:left;font-family: monospace;">
 1/1/2019
@@ -216,7 +216,7 @@ If the exact date is unknown, use the first day of the month. Enr_Start should n
 </tr>
 <tr>
 <td style="text-align:left;">
-Enr_End
+Enr_End[^Enr_End should not be imputed using the date of death found in the Death table.]
 </td>
 <td style="text-align:left;">
 Num(4)
@@ -231,7 +231,7 @@ No
 Date of the end of the enrollment period.
 </td>
 <td style="text-align:left;">
-If the exact date is unknown, use the last day of the month.
+<b>Note 1</b>: If the exact date is unknown, use the last day of the month.
 </td>
 <td style="text-align:left;font-family: monospace;">
 12/31/2019
@@ -254,7 +254,7 @@ No
 Indicates whether the patient has medical coverage during the enrollment period.
 </td>
 <td style="text-align:left;">
-Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided.
+<b>Note</b>: Mark as Y if the health plan has any responsibility for covering medical care for the member during this enrollment period (i.e., if you expect to observe medical care provided to this member during the enrollment period). Mark as A if only ambulatory visit coverage is provided.
 </td>
 <td style="text-align:left;font-family: monospace;">
 Y
@@ -277,7 +277,7 @@ No
 Indicates whether the patient has drug coverage during the enrollment period.
 </td>
 <td style="text-align:left;">
-Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period).
+<b>Note</b>: Mark as Y if the health plan has any responsibility for covering outpatient prescription drugs for the member during this enrollment period (i.e., if you expect to observe outpatient pharmacy dispensings for this member during this enrollment period).
 </td>
 <td style="text-align:left;font-family: monospace;">
 Y
@@ -285,7 +285,7 @@ Y
 </tr>
 <tr>
 <td style="text-align:left;">
-Chart
+Chart[^This flag does not address chart availability.][^This flag does not address chart availability.]
 </td>
 <td style="text-align:left;">
 Char(1)
@@ -300,40 +300,13 @@ No
 Chart abstraction flag to answer the question, “Are you able to request charts for this member?”
 </td>
 <td style="text-align:left;">
-Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member.
+<b>Note</b>: Mark as Y if the health plan is able to request charts for this member. Mark as N if the health plan is not able to request charts for this member.
 </td>
 <td style="text-align:left;font-family: monospace;">
 Y
 </td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>1</sup> PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.
-</td>
-</tr>
-<tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>2</sup> Adjacent and overlapping enrollment periods with the same PatID, Enr_Start, Enr_End, MedCov, DrugCov, and Chart values should be collapsed. Enrollment periods separated by more than one day should not be bridged. For example, an Enr_End date of 1/31/2019 should be bridged with an Enr_Start date of 2/1/2019, but should not be bridged with an Enr_Start date of 2/2/2019.
-</td>
-</tr>
-<tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>3</sup> Enr_End should not be imputed using the date of death found in the Death table.
-</td>
-</tr>
-<tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>4</sup> This flag does not address chart availability.
-</td>
-</tr>
-<tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>5</sup> Chart variable aims to identify enrollment periods for which medical charts cannot be requested. Potential scenarios include: 1) Charts cannot be requested for Medicare members (all enrollment periods for Medicare members should be assigned Chart=N), 2) Charts cannot be requested for administrative services only (ASO) populations (all ASO enrollment periods should be assigned Chart=N). If there is no definitive information indicating that medical charts cannot be requested for member enrollment period(s), records should be assigned Chart=Y.
-</td>
-</tr>
-</tfoot>
 
 </table>
 </section>
@@ -374,7 +347,7 @@ Example
 <tbody>
 <tr>
 <td style="text-align:left;">
-PatID
+PatID[^PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.]
 </td>
 <td style="text-align:left;">
 Num(#)
@@ -389,7 +362,7 @@ No
 Arbitrary person-level identifier
 </td>
 <td style="text-align:left;">
-Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+<b>Note</b>: Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
 </td>
 <td style="text-align:left;font-family: monospace;">
 123456789
@@ -419,7 +392,7 @@ Date of birth.
 </tr>
 <tr>
 <td style="text-align:left;">
-Sex
+Sex[^The Sex variable is populated with biological sex data, which may not be correlated with gender.]
 </td>
 <td style="text-align:left;">
 Char(1)
@@ -441,7 +414,7 @@ F
 </tr>
 <tr>
 <td style="text-align:left;">
-Hispanic
+Hispanic[^At this time the SCDM retains one Race and one Hispanic value per individual.]
 </td>
 <td style="text-align:left;">
 Char(1)
@@ -463,7 +436,7 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-Race
+Race[^At this time the SCDM retains one Race and one Hispanic value per individual.]
 </td>
 <td style="text-align:left;">
 Char(1)
@@ -478,7 +451,7 @@ No
 Race.
 </td>
 <td style="text-align:left;">
-Please use only one race value per patient.
+<b>Note</b>: Please use only one race value per patient.
 </td>
 <td style="text-align:left;font-family: monospace;">
 2
@@ -501,7 +474,7 @@ Yes
 Postal code of patient’s most recent primary residence.
 </td>
 <td style="text-align:left;">
-USA: First 5 digits of the ZIP code of the patient’s most recent primary residence. (5 characters only)
+<b>USA</b>: First 5 digits of the ZIP code of the patient’s most recent primary residence. (5 characters only)<br><b>Other</b>: Complete postal code or region identifier. (variable length is dependent on code length)
 </td>
 <td style="text-align:left;font-family: monospace;">
 04090
@@ -530,23 +503,204 @@ Earliest date that the PostalCode is believed to be continuously correct up unti
 </td>
 </tr>
 </tbody>
-<tfoot>
+
+</table>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="dispensing" class="level3">
+<h3 class="anchored" data-anchor-id="dispensing">Dispensing</h3>
+<p>The SCDM Outpatient Pharmacy Dispensing Table contains one record per unique outpatient pharmacy dispensing. Rollback transactions and other adjustments should be processed before populating this table</p>
+<p><b>Unique Row</b>: PatID, RxDate, Rx_CodeType, Rx, ProviderID</p>
+<p><b>Sort Order</b>: PatID, RxDate</p>
+
+<table class="table table-responsive table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
 <tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>1</sup> PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.
+<th style="text-align:left;">
+Variable Name
+</th>
+<th style="text-align:left;">
+Variable Type and Length (Bytes)
+</th>
+<th style="text-align:left;">
+Values
+</th>
+<th style="text-align:left;">
+Missing Values Allowed?
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Guidance
+</th>
+<th style="text-align:left;">
+Example
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PatID[^PatID is a pseudoidentifier with a consistent crosswalk to the true identifier retained by the source Data Partner. For analytical data sets requiring patient-level data, only the pseudoidentifier is used to link across all information belonging to a patient.]
+</td>
+<td style="text-align:left;">
+Num(#)
+</td>
+<td style="text-align:left;">
+Unique patient identifier
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Arbitrary person-level identifier. Used to link across tables.
+</td>
+<td style="text-align:left;">
+<b>Note</b>: Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+</td>
+<td style="text-align:left;font-family: monospace;">
+123456789
 </td>
 </tr>
 <tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>2</sup> The Sex variable is populated with biological sex data, which may not be correlated with gender.
+<td style="text-align:left;">
+ProviderID[^As with the PatID, the ProviderID is a pseudoidentifier with a consistent crosswalk to the real identifier.][^As with the PatID, the ProviderID is a pseudoidentifier with a consistent crosswalk to the real identifier.]
+</td>
+<td style="text-align:left;">
+Num(#)
+</td>
+<td style="text-align:left;">
+Unique provider identifier<br>.U = SAS Special Missing value indicating an individual provider or prescriber cannot be identified.
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Identifier for the individual provider who prescribed the drug.
+</td>
+<td style="text-align:left;">
+<b>Note</b>: If an individual provider/prescriber can not be identified, set to special missing value .U. This variable links to the Provider table. Use the fewest number of bytes necessary to hold all distinct values; see “SAS Lengths” Reference Table.
+</td>
+<td style="text-align:left;font-family: monospace;">
+12345
 </td>
 </tr>
 <tr>
-<td style="padding: 0; border:0;" colspan="100%">
-<sup>3</sup> At this time the SCDM retains one Race and one Hispanic value per individual.
+<td style="text-align:left;">
+RxDate
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+SAS Date
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Dispensing date (as close as possible to date the person received the dispensing).
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+11/29/2005
 </td>
 </tr>
-</tfoot>
+<tr>
+<td style="text-align:left;">
+Rx
+</td>
+<td style="text-align:left;">
+Char(#)
+</td>
+<td style="text-align:left;">
+Drug Code
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Code representing a prescribed medication or medical device.
+</td>
+<td style="text-align:left;">
+<b>Note 1</b>: Please expunge any place holders (e.g., “-” or extra digits).<br><b>Note 2</b>: Use the fewest number of bytes necessary to hold all values for all values of RxCodeType; see “SAS Lengths” Reference Table.
+</td>
+<td style="text-align:left;font-family: monospace;">
+00006007431
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rx_CodeType[^Rx_CodeType includes options for values that are relevant to medication and medical device codes used in different international jurisdictions.]
+</td>
+<td style="text-align:left;">
+Char(2)
+</td>
+<td style="text-align:left;">
+ND = National Drug Code (US)<br>SN = SNOMED-CT (US)<br>SK = SNOMED-CT (UK/CPRD)<br>DM = Dictionary of Medicines and Devices (UK)<br>DI = Drug Identification Number (CA)<br>RN = RxNorm (US)<br>AT = Anatomical Therapeutic Chemical Classification System (DK)
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Code type of prescribed medication or medical device. This field combined with the Rx field should be used to capture any type of prescribed medication or medical device available in the source data. Other code types may be added as new terminologies are used.
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;font-family: monospace;">
+SK
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RxSup
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+Days Supply
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Number of days that the medication supports based on the number of doses as reported by the pharmacist.
+</td>
+<td style="text-align:left;">
+<b>Note 1</b>: This amount is typically found on the dispensings record. It should not be necessary to calculate this variable for use in the SCDM.<br><b>Note 2</b>: Positive integer values are expected
+</td>
+<td style="text-align:left;font-family: monospace;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RxAmt
+</td>
+<td style="text-align:left;">
+Num(4)
+</td>
+<td style="text-align:left;">
+Amount Dispensed
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Number of units (pills, tablets, vials) dispensed. Net amount per dispensing.
+</td>
+<td style="text-align:left;">
+<b>Note 1</b>: This amount is typically found on the dispensings record. It should not be necessary to calculate this variable for use in the SCDM. <br><b>Note 2</b>: Positive values are expected
+</td>
+<td style="text-align:left;font-family: monospace;">
+60
+</td>
+</tr>
+</tbody>
 
 </table>
 </section>
